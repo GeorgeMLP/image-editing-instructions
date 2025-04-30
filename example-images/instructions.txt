@@ -1,5 +1,5 @@
-add a white dog looking up at the food bowl
-add a bulldog to the floor
-add a dog in front of the person
-draw a dog looking at the bowl
-put a white dog in the foreground
+add a white dog looking up at the bowl
+add a bulldog in front of the person
+put a dog in the foreground
+add a dog looking at the food bowl
+include a dog facing the person with the bowl
