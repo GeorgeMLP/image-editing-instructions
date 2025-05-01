@@ -1,4 +1,6 @@
+import os
 from pathlib import Path
+from tqdm import trange
 import torch  # version <= 2.6, torch 2.7 doesn't work
 from torch import LongTensor
 from PIL import Image, ImageFile
@@ -84,8 +86,28 @@ if __name__ == '__main__':
         padding_side="left",
         use_fast=True,
     )
-    image_before = Image.open('example-images/1.png')
-    image_after = Image.open('example-images/2.jpg')
-    save_path = 'example-images/instructions.txt'
-    generate_and_save_instructions(image_before, image_after, save_path)
-    print(load_instructions(save_path))
+
+    # demo
+    # image_before = Image.open('example-images/1.png')
+    # image_after = Image.open('example-images/2.jpg')
+    # save_path = 'example-images/instructions.txt'
+    # generate_and_save_instructions(image_before, image_after, save_path)
+    # print(load_instructions(save_path))
+
+    # generate instructions for the whole dataset
+    Path('instructions/').mkdir(exist_ok=True)
+    for ind in trange(1250):
+        save_path = f'instructions/{ind}.txt'
+        if os.path.exists(save_path):  # already generated
+            continue
+        photo_dir = Path('sampled', f'{ind}')
+        removed_dir = Path('inpainted', f'{ind}')
+        photo_lst = list(photo_dir.glob('**/*_photo.jpg'))
+        removed_lst = list(removed_dir.glob('**/*_remove.jpg'))
+        if len(photo_lst) == 0 or len(removed_lst) == 0:
+            continue
+        photo_path = str(photo_lst[0])
+        removed_path = str(removed_lst[0])
+        image_before = Image.open(removed_path)
+        image_after = Image.open(photo_path)
+        generate_and_save_instructions(image_before, image_after, save_path)

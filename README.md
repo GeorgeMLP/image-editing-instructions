@@ -3,3 +3,5 @@
 `scripts/controlnet_scribble.py` is a script for running the ControlNet Scribble model.
 
 These two scripts should be run under different Python environments. See the `bash/` folder for how to set up the environments.
+
+To generate instructions for the whole dataset, include the `groundingSAM/`, `inpainted/` and `sampled/` folders in this directory, then run `python scripts/generate_instructions.py`. The generated instructions will be in the `instructions/` folder.
