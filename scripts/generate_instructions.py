@@ -9,7 +9,7 @@ from transformers.feature_extraction_utils import BatchFeature
 from transformers.models.gemma3.processing_gemma3 import Gemma3Processor
 
 
-prompt = (
+prompt_old = (
     "We are building a dataset for image editing. Given a pair of images "
     "(a source image and a target image), please generate 5 different natural "
     "language instructions that describe how to edit the first image to "
@@ -21,6 +21,15 @@ prompt = (
     "modifying objects, changing colors, adjusting backgrounds, etc.).\n"
     "- Write one instruction per line.\n"
     "- Do not output anything other than the 5 instructions.\n\n"
+    "The source and target images are given as follows. Make sure your "
+    "instructions accurately describe their differences.\n"
+)
+prompt = (
+    "We are building a dataset for image editing. Given a pair of images "
+    "(a source image and a target image), please generate a detailed natural "
+    "language instruction that describe how to edit the first image to "
+    "transform it into the second image. Generate the instruction on one line "
+    "and do not output anything other than the instruction.\n\n"
     "The source and target images are given as follows. Make sure your "
     "instructions accurately describe their differences.\n"
 )
@@ -67,7 +76,7 @@ def generate_and_save_instructions(
 
     output: LongTensor = model.generate(**inputs, max_new_tokens=500)
     response: str = processor.decode(output[0], skip_special_tokens=True)
-    instructions: list[str] = list(filter(None, response.split('\n')))[-5:]
+    instructions: list[str] = list(filter(None, response.split('\n')))[-1:]
     if save_path is not None:
         save_instructions(instructions, save_path)
     return instructions

@@ -3,6 +3,8 @@ groundingSAM/
 inpainted/
 sampled/
 instructions/
+descriptions/
+baseline_predictions/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
